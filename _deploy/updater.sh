@@ -6,7 +6,7 @@
 # --- Validation ---
 if [ "$#" -ne 2 ]; then
     echo "Usage: $0 <printer_host> <printer_user>"
-    echo "Example: $0 dennisprinter.lan biqu"
+    echo "Example: $0 someprinter.lan some user"
     exit 1
 fi
 
