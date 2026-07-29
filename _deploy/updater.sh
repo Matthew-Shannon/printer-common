@@ -55,7 +55,6 @@ sshpass -p "${SSH_PASSWORD}" ssh -o StrictHostKeyChecking=accept-new -tt "${PRIN
 
     echo "--> Restart commands sent successfully via Moonraker."
     echo "--> Remote operations complete."
-    exit
 EOF
 
 # --- Final Status Check ---
