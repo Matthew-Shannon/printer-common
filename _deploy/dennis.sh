@@ -2,18 +2,11 @@
 
 # Configuration
 PRINTER_USER="biqu"
+SSH_PASSWORD="biqu"
 PRINTER_HOST="dennisprinter.lan"
 KLIPPER_CONFIG_REPO_PATH="/home/${PRINTER_USER}/printer-common"
 
 echo "Attempting to connect to ${PRINTER_USER}@${PRINTER_HOST}..."
-
-# Prompt for SSH password
-# NOTE: Hardcoding passwords in scripts is a significant security risk.
-# It is strongly recommended to set up SSH keys for passwordless authentication.
-# If the password for the 'biqu' user is literally "biqu", you can replace
-# the 'read -s -p ...' line with 'SSH_PASSWORD="biqu"' (without quotes around biqu).
-read -s -p "Enter SSH password for ${PRINTER_USER}@${PRINTER_HOST}: " SSH_PASSWORD
-echo
 
 # Check if sshpass is installed. If not, provide instructions.
 # 'sshpass' is required for non-interactive password entry.
@@ -61,3 +54,5 @@ fi
 
 # Clear the password from memory for security
 unset SSH_PASSWORD
+
+exit
