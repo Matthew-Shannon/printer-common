@@ -45,7 +45,7 @@ sshpass -p "${SSH_PASSWORD}" ssh -o StrictHostKeyChecking=accept-new -tt "${PRIN
 
     echo "Calling UTIL_RESTART macro via Moonraker API..."
     # This sends a request to the local Moonraker instance on the printer to run the UTIL_RESTART gcode macro.
-    curl -s -X POST -H "Content-Type: application/json" -d '{"script":"UTIL_RESTART"}' http://localhost:7125/printer/gcode/script || { echo "Error: Failed to call Moonraker API. Is curl installed and is Moonraker running?"; exit 1; }
+    curl -s -X POST -H "Content-Type: application/json" -d '{"script":"UTIL_RESTART"}' http://${PRINTER_HOST}:7125/printer/gcode/script || { echo "Error: Failed to call Moonraker API. Is curl installed and is Moonraker running?"; exit 1; }
     echo
 
     echo "Restart command sent successfully via Moonraker."
