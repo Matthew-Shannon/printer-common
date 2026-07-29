@@ -30,18 +30,19 @@ sshpass -p "${SSH_PASSWORD}" ssh -o StrictHostKeyChecking=accept-new -tt "${PRIN
     echo "Pulling newest changes from Git repository..."
     git pull || { echo "Error: Git pull failed. Please check your repository configuration and network connection. Exiting remote session."; exit 1; }
 
-    echo "Restarting Klipper via Moonraker API..."
-    # These send POST requests to the Moonraker instance on the printer to restart Klipper.
-
-    echo "Restart commands sent successfully via Moonraker."
-    echo "Remote operations complete."
-
-    curl -s -X POST http://${PRINTER_HOST}:7125/printer/firmware_restart || { echo "Error: FIRMWARE_RESTART call failed. Is curl installed and is Moonraker running?"; exit 1; }
-    sleep 5
-    curl -s -X POST http://${PRINTER_HOST}:7125/printer/restart || { echo "Error: RESTART call failed. Is curl installed and is Moonraker running?"; exit 1; }
 
     exit
 EOF
+
+echo "Restarting Klipper via Moonraker API..."
+# These send POST requests to the Moonraker instance on the printer to restart Klipper.
+
+echo "Restart commands sent successfully via Moonraker."
+echo "Remote operations complete."
+
+curl -s -X POST http://${PRINTER_HOST}:7125/printer/firmware_restart || { echo "Error: FIRMWARE_RESTART call failed. Is curl installed and is Moonraker running?"; exit 1; }
+sleep 5
+curl -s -X POST http://${PRINTER_HOST}:7125/printer/restart || { echo "Error: RESTART call failed. Is curl installed and is Moonraker running?"; exit 1; }
 
 # Check the exit status of the ssh command
 if [ $? -eq 0 ]; then
