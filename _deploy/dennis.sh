@@ -21,12 +21,6 @@ then
     exit 1
 fi
 
-# dennis
-# -rwxr-xr-x 1 root root 901896 Jul  5 02:17 /usr/local/bin/klipper_mcu
-
-# artemis
-# -rwxr-xr-x 1 root root 901896 Jul  5 02:35 /usr/local/bin/klipper_mcu
-
 # Execute commands on the remote printer
 # The -t option allocates a pseudo-terminal, which is often required for sudo commands.
 sshpass -p "${SSH_PASSWORD}" ssh -o StrictHostKeyChecking=accept-new -tt "${PRINTER_USER}@${PRINTER_HOST}" << EOF
@@ -35,15 +29,18 @@ sshpass -p "${SSH_PASSWORD}" ssh -o StrictHostKeyChecking=accept-new -tt "${PRIN
 
     echo "Pulling newest changes from Git repository..."
     git pull || { echo "Error: Git pull failed. Please check your repository configuration and network connection. Exiting remote session."; exit 1; }
-
-    echo "Calling UTIL_RESTART macro via Moonraker API..."
-    # This sends a request to the local Moonraker instance on the printer to run the UTIL_RESTART gcode macro.
-    curl -s -X POST -H "Content-Type: application/json" -d '{"script":"UTIL_RESTART"}' http://${PRINTER_HOST}:7125/printer/gcode/script || { echo "Error: Failed to call Moonraker API. Is curl installed and is Moonraker running?"; exit 1; }
-    echo
-
-    echo "Restart command sent successfully via Moonraker."
-    echo "Remote operations complete."
+    exit
 EOF
+
+
+echo "Restarting Klipper via Moonraker API..."
+# These send POST requests to the Moonraker instance on the printer to restart Klipper.
+
+echo "Restart commands sent successfully via Moonraker."
+echo "Remote operations complete."
+
+curl -s -X POST http://${PRINTER_HOST}:7125/printer/firmware_restart || { echo "Error: FIRMWARE_RESTART call failed. Is curl installed and is Moonraker running?"; exit 1; }
+curl -s -X POST http://${PRINTER_HOST}:7125/printer/restart || { echo "Error: RESTART call failed. Is curl installed and is Moonraker running?"; exit 1; }
 
 # Check the exit status of the ssh command
 if [ $? -eq 0 ]; then
