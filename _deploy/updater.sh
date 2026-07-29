@@ -14,6 +14,7 @@ fi
 PRINTER_HOST="$1"
 PRINTER_USER="$2"
 KLIPPER_CONFIG_REPO_PATH="/home/${PRINTER_USER}/printer-common"
+SSH_PASSWORD=${PRINTER_USER}
 
 echo "Attempting to connect to ${PRINTER_USER}@${PRINTER_HOST}..."
 
@@ -28,11 +29,6 @@ if ! command -v sshpass &> /dev/null; then
     echo "Alternatively, set up SSH keys on your printer for a more secure, passwordless experience."
     exit 1
 fi
-
-# Prompt for SSH password securely.
-# It is strongly recommended to set up SSH keys to avoid passwords entirely.
-read -s -p "Enter SSH password for ${PRINTER_USER}@${PRINTER_HOST}: " SSH_PASSWORD
-echo
 
 # --- Remote Execution ---
 # The -tt option forces a pseudo-terminal, which is useful for scripting.
@@ -59,6 +55,7 @@ sshpass -p "${SSH_PASSWORD}" ssh -o StrictHostKeyChecking=accept-new -tt "${PRIN
 
     echo "--> Restart commands sent successfully via Moonraker."
     echo "--> Remote operations complete."
+    exit
 EOF
 
 # --- Final Status Check ---
@@ -70,3 +67,5 @@ fi
 
 # Clear the password from memory for security
 unset SSH_PASSWORD
+
+exit
