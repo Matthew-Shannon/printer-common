@@ -43,20 +43,12 @@ sshpass -p "${SSH_PASSWORD}" ssh -o StrictHostKeyChecking=accept-new -tt "${PRIN
     echo "Pulling newest changes from Git repository..."
     git pull || { echo "Error: Git pull failed. Please check your repository configuration and network connection. Exiting remote session."; exit 1; }
 
-    echo "Restarting Klipper service..."
-    # This might prompt for a sudo password if the '${PRINTER_USER}' user requires it for systemctl.
-    # To avoid this, you can configure sudoers on the printer to allow NOPASSWD for these commands.
-    # The -S flag tells sudo to read the password from standard input.
+    echo "Calling UTIL_RESTART macro via Moonraker API..."
+    # This sends a request to the local Moonraker instance on the printer to run the UTIL_RESTART gcode macro.
+    curl -s -X POST -H "Content-Type: application/json" -d '{"script":"UTIL_RESTART"}' http://localhost:7125/printer/gcode/script || { echo "Error: Failed to call Moonraker API. Is curl installed and is Moonraker running?"; exit 1; }
+    echo
 
-    echo "${SSH_PASSWORD}" | sudo -S systemctl restart klipper || { echo "Error: Failed to restart Klipper. Exiting remote session."; exit 1; }
-
-    echo "Restarting Klipper MCU service..."
-    echo "${SSH_PASSWORD}" | sudo -S systemctl restart klipper-mcu || { echo "Error: Failed to restart Klipper MCU. Exiting remote session."; exit 1; }
-
-    echo "Restarting Moonraker service..."
-    echo "${SSH_PASSWORD}" | sudo -S systemctl restart moonraker || { echo "Error: Failed to restart Moonraker. Exiting remote session."; exit 1; }
-
-    echo "Klipper, Klipper MCU, and Moonraker services restarted successfully."
+    echo "Restart command sent successfully via Moonraker."
     echo "Remote operations complete."
 EOF
 
