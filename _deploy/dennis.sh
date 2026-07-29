@@ -40,6 +40,7 @@ echo "Restart commands sent successfully via Moonraker."
 echo "Remote operations complete."
 
 curl -s -X POST http://${PRINTER_HOST}:7125/printer/firmware_restart || { echo "Error: FIRMWARE_RESTART call failed. Is curl installed and is Moonraker running?"; exit 1; }
+sleep 5
 curl -s -X POST http://${PRINTER_HOST}:7125/printer/restart || { echo "Error: RESTART call failed. Is curl installed and is Moonraker running?"; exit 1; }
 
 # Check the exit status of the ssh command
