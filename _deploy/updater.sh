@@ -53,7 +53,7 @@ sshpass -p "${SSH_PASSWORD}" ssh -o StrictHostKeyChecking=accept-new "${PRINTER_
     
     curl -s -X POST http://localhost:7125/printer/restart
 
-    echo "--> Restart commands sent successfully via Moonraker."
+    echo "\n--> Restart commands sent successfully via Moonraker."
     echo "--> Remote operations complete."
     exit 0
 EOF
