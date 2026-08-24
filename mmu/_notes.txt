@@ -1,0 +1,44 @@
+NOTES ------------------------------------------------------------------
+
+Type A (Servo_Selector, Shared drive stepper):
+PicoMMU (with Servo_Selector)
+
+
+reverse boden cap height:   	9.0mm
+extruder height: 		 	   46.0mm
+throat height:			   	4.0mm
+heat block height: 		   10.0mm
+nozzle height: 				8.4mm
+---------------------------------
+						  	   77.4mm
+[cold zone]
+35.0mm from top of extruder gear to bottom of extruder
+
+[throat] 4.0mm
+
+[hot zone]
+39.0mm from top of extruder gear to top of heat block
+
+57 from top of extruder gear to nozzle
+
+
+
+GCODE REF --------------------------------------------------------------
+G27: ?
+G28: home axis
+G29: ?
+G90: absolute XYZ positioning, e.g. G0 X100; (X=100)
+G91: relative XYZ positioning, e.g. G1 X100; (X+100)
+G92: gcode offsets
+M82: absolute E positioning, G1 E20; (E=20)
+M83: relative E positioning, G1 E20; (E+20)
+M84: disable motors
+M107: turn off fans
+M109: heat extruder and wait
+M109: heat bed and wait
+M201: marlin acceleration limits compatibility (default noop)
+M203: marlin maximum feedrate compatibility (default noop)
+M205: marlin jerk compatibility (default noop)
+M220: set speed factor override percentage
+M221: set extrude factor override percentage
+M400: wait for moves to finish
