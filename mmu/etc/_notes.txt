@@ -21,7 +21,19 @@ nozzle height: 				8.4mm
 
 57 from top of extruder gear to nozzle
 
+[original angles]
+28, 61, 94, 128
 
+[original normalized]
+29,	62,	95, 128
+
+[custom angles +1]
+30, 63, 96, 129
+
+[custom angles +2]
+31, 64, 97, 130
+
+DUMP_TMC STEPPER=extruder REGISTER=SGTHRS
 
 GCODE REF --------------------------------------------------------------
 G27: ?
