@@ -35,6 +35,8 @@ nozzle height: 				8.4mm
 
 DUMP_TMC STEPPER=extruder REGISTER=SGTHRS
 
+mmu_calibration_bowden_lengths = [990.0, 990.0, 990.0, 990.0]
+
 GCODE REF --------------------------------------------------------------
 G27: ?
 G28: home axis
