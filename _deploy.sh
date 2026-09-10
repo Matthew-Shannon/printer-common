@@ -1,23 +1,30 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "--> Pulling newest changes from Git repository..."
+# publish
+echo -e "\n\n=============================================================="
+echo -e "\t[SLAVE] PULLING CHANGES"
 git pull -q
 
-# Sends an M112/firmware restart signal to reset the MCU (microcontroller board) connection
-echo "Sending firmware restart command to Klipper via Moonraker..."
+# mcu restart
+echo -e "\n\n=============================================================="
+echo -e "\t[SLAVE] MCU RESTART"
 curl -s -X POST http://localhost:7125/printer/firmware_restart
-sleep 5 # Wait a moment for the firmware restart to process before the next command.
+sleep 5
 
-# Restarts the main Klipper host software service without resetting the microcontroller hardware
-echo "Restarting Klipper via Moonraker API..."
+# printer restart
+echo -e "\n\n=============================================================="
+echo -e "\t[SLAVE] PRINTER RESTART"
 curl -s -X POST http://localhost:7125/printer/restart
-sleep 3 # Allow Klipper to finish restarting before restarting Moonraker.
+sleep 5
 
-# Restarts the Moonraker web server daemon itself
-echo "Restarting Moonraker web server via Moonraker API..."
+# moonraker restart
+echo -e "\n\n=============================================================="
+echo -e "\t[SLAVE] MOONRAKER RESTART"
 curl -s -X POST http://localhost:7125/server/restart
+sleep 5
 
-echo "\n--> Restart commands sent successfully via Moonraker."
-echo "--> Remote operations complete."
+# complete
+echo -e "\n\n=============================================================="
+echo -e "\t[SLAVE] DEPLOYMENT COMPLETE"
 exit 0
